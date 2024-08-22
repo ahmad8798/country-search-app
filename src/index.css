@@ -8,9 +8,18 @@
 }
 
 body{
-  background-color: hsl(0, 0%, 98%);
+  background-color: hsl(207, 26%, 17%);
 }
+/* 
+.dark-mode{
+  background-color: ;
+} */
 
 .country-card-title{
   font-size: 10px;
 }
+
+#dropdown-basic::after{
+  display: none;
+}
+

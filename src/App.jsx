@@ -3,32 +3,42 @@ import CountryCard from "./components/Card/CountryCard";
 
 import Header from "./components/Header/Header";
 import CardList from "./components/CardList/CardList";
-
+import RegionsDropDownButton from "./components/RegionsDropDown/RegionsDropDownButton";
+import SearchBar from "./components/SearchBar/SearchBar";
+import SearchFilterBar from "./components/SearchFilterBar/SearchFilterBar";
+import useFetch from "./hooks/useFetch";
 
 const App = () => {
+  const { data, loading, error } = useFetch("https://restcountries.com/v3.1/all");
+  
   const [countries, setCountries] = useState([]);
+  
 
-  async function fetchCountries() {
-    try {
-      const response = await fetch("https://restcountries.com/v3.1/all");
-      const result = await response.json();
-      setCountries(result);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
+  // Update the countries state when data is fetched
   useEffect(() => {
-    fetchCountries();
-  }, []);
+    if (data) {
+      setCountries(data);
+    }
+  }, [data]);
+
   return (
     <>
       <Header />
-      <CardList>
-        {countries.map((country) => (
-          <CountryCard key={country.cca3} country={country} />
-        ))}
-      </CardList>
+      <SearchFilterBar className={"mt-5"}>
+        <SearchBar />
+        <RegionsDropDownButton />
+      </SearchFilterBar>
+
+      {error && <p className="text-danger">Error: {error}</p>}
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <CardList>
+          {countries.map((country) => (
+            <CountryCard key={country.cca3} country={country} />
+          ))}
+        </CardList>
+      )}
     </>
   );
 };

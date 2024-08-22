@@ -1,0 +1,23 @@
+.custom-input {
+    padding-block: 15px !important;
+    padding-inline: 70px !important;
+    width: 100%; /* Ensure the input is responsive by default */
+}
+
+.custom-input:focus {
+    outline: none !important;
+    border-color: #ced4da !important; /* Default border color */
+}
+
+.search-icon {
+    top: 15px;
+    font-size: 20px;
+    left: 10px;
+    padding-left: 20px;
+}
+
+@media screen and (min-width: 576px) {
+    .custom-input {
+        width: 450px !important;
+    }
+}
