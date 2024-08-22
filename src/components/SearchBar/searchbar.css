@@ -2,6 +2,10 @@
     padding-block: 15px !important;
     padding-inline: 70px !important;
     width: 100%; /* Ensure the input is responsive by default */
+    
+}
+.custom-input-dark::placeholder{
+    color: white !important;
 }
 
 .custom-input:focus {

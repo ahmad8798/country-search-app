@@ -23,3 +23,14 @@ body{
   display: none;
 }
 
+
+.home-page-wrapper{
+  background-color: hsl(207, 26%, 17%);
+}
+.dark-mode-element{
+  background-color: hsl(209, 23%, 22%) !important;
+}
+
+a:hover{
+  background-color: hsl(207, 26%, 17%) !important;
+}

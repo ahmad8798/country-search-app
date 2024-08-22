@@ -1,24 +1,26 @@
-import { Container, Nav, Navbar } from "react-bootstrap"
-import './header.css'
+import { Container, Nav, Navbar } from "react-bootstrap";
+import './header.css';
 
-const Header = () => {
+const Header = ({ isDarkModeEnabled, toggleDarkMode }) => {
   return (
-<>
-<Navbar className=" border border-bottom-2 shadow-sm">
-    <Container className="py-1">
-        <Navbar.Brand className="fw-bold">
-            Where in the world?
+    <Navbar className={`border border-bottom-2 shadow-sm ${isDarkModeEnabled ? "dark-mode-element border-0" : ""}`}>
+      <Container className="py-1">
+        <Navbar.Brand className={`fw-bold ${isDarkModeEnabled ? "text-light" : ""}`}>
+          Where in the world?
         </Navbar.Brand>
         <Nav className="ms-auto">
-            <Nav.Link className="fw-semibold text-dark">
-            <i className="bi bi-moon px-1"></i>
-                Dark Mode
-            </Nav.Link>
+          <Nav.Item
+            onClick={toggleDarkMode}
+            className={`fw-semibold nav-item ${isDarkModeEnabled ? "text-light" : "text-dark"}`}
+            style={{ cursor: "pointer" }}
+          >
+            <i className={`bi px-1 ${isDarkModeEnabled ? "text-light bi-moon-fill" : "bi-moon"}`}></i>
+            Dark Mode
+          </Nav.Item>
         </Nav>
-    </Container>
-</Navbar>
-</>
-  )
-}
+      </Container>
+    </Navbar>
+  );
+};
 
-export default Header
+export default Header;
