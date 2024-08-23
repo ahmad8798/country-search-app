@@ -1,8 +1,287 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Country Search App
 
-Currently, two official plugins are available:
+A challenge from Frontend Mentor using the REST Countries API. This project allows users to search for countries, filter by region, and toggle between dark and light modes.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Table of Contents
+
+- [Project Overview](#project-overview)
+- [Setup](#setup)
+- [Components](#components)
+  - [CountryCard](#countrycard)
+  - [CardList](#cardlist)
+  - [Header](#header)
+  - [RegionsDropDownButton](#regionsdropdownbutton)
+  - [SearchBar](#searchbar)
+  - [SearchFilterBar](#searchfilterbar)
+- [Pages](#pages)
+  - [Home](#home)
+- [Custom Hooks](#custom-hooks)
+  - [useFetch](#usefetch)
+  - [useFilteredCountries](#usefilteredcountries)
+- [Helper Functions](#helper-functions)
+  - [extractRegions](#extractregions)
+
+## Project Overview
+
+This project is a country search application that provides functionalities to search for specific countries, filter countries by region, and toggle between dark and light modes. The project utilizes React, Bootstrap, and React Bootstrap for styling and component management.
+
+## Setup
+
+1. **Clone the repository:**
+
+   ```bash
+   git clone <repository-url>
+   cd <project-directory>
+   ```
+
+2. **Install dependencies:**
+
+   ```bash
+   npm install
+   ```
+
+3. **Start the development server:**
+
+   ```bash
+   npm run dev
+   ```
+
+   This will start the Vite development server, and you can view the application at `http://localhost:3000`.
+
+## Components
+
+### CountryCard
+
+Displays information about a single country, including its flag, name, population, region, and capital.
+
+**Props:**
+- `country` (object): The country data to display. This object should have the following properties:
+  - `name` (object): Contains a `common` property with the country's name.
+  - `region` (string): The region to which the country belongs.
+  - `population` (number): The population of the country.
+  - `capital` (array): An array containing the capital city of the country.
+  - `flags` (object): Contains a `png` property with the URL of the country's flag image.
+- `isDarkModeEnabled` (boolean): Determines if dark mode is enabled.
+
+**Usage:**
+
+```jsx
+<CountryCard 
+  country={{
+    name: { common: "Germany" },
+    region: "Europe",
+    population: 83783942,
+    capital: ["Berlin"],
+    flags: { png: "https://flagcdn.com/w320/de.png" }
+  }} 
+  isDarkModeEnabled={isDarkModeEnabled} 
+/>
+```
+
+**Description:**
+- The `CountryCard` component takes a `country` object and displays its flag, name, population, region, and capital in a styled card format.
+- The `isDarkModeEnabled` prop adjusts the card’s styling to match the current theme (dark or light).
+
+### CardList
+
+A container component that wraps a list of country cards in a responsive grid.
+
+**Props:**
+- `children` (ReactNode): The country cards to be displayed.
+
+**Usage:**
+
+```jsx
+<CardList>
+  {countries.map(country => (
+    <CountryCard 
+      key={country.cca3} 
+      country={country} 
+      isDarkModeEnabled={isDarkModeEnabled} 
+    />
+  ))}
+</CardList>
+```
+
+**Description:**
+- The `CardList` component arranges its children (typically `CountryCard` components) in a responsive grid using Bootstrap's `Container` and `Row` components.
+
+### Header
+
+Displays the application title and includes a toggle button for dark mode.
+
+**Props:**
+- `isDarkModeEnabled` (boolean): Determines if dark mode is enabled.
+- `toggleDarkMode` (function): Function to toggle dark mode.
+
+**Usage:**
+
+```jsx
+<Header 
+  isDarkModeEnabled={isDarkModeEnabled} 
+  toggleDarkMode={toggleDarkMode} 
+/>
+```
+
+**Description:**
+- The `Header` component displays the title of the application and a button to toggle dark mode on or off.
+- It adjusts its appearance based on the `isDarkModeEnabled` prop.
+
+### RegionsDropDownButton
+
+A dropdown button for selecting regions to filter countries.
+
+**Props:**
+- `isDarkModeEnabled` (boolean): Determines if dark mode is enabled.
+- `regions` (array): List of regions to display in the dropdown.
+- `handleRegionChange` (function): Function to handle region selection.
+- `selectedRegion` (string): The currently selected region.
+
+**Usage:**
+
+```jsx
+<RegionsDropDownButton
+  isDarkModeEnabled={isDarkModeEnabled}
+  regions={["Europe", "Asia", "Africa"]}
+  handleRegionChange={handleRegionChange}
+  selectedRegion={selectedRegion}
+/>
+```
+
+**Description:**
+- The `RegionsDropDownButton` component provides a dropdown menu for selecting a region.
+- It updates the selected region via the `handleRegionChange` function and adjusts its styling based on the `isDarkModeEnabled` prop.
+
+### SearchBar
+
+A search bar for filtering countries by name.
+
+**Props:**
+- `isDarkModeEnabled` (boolean): Determines if dark mode is enabled.
+- `handleSearchChange` (function): Function to handle search input changes.
+
+**Usage:**
+
+```jsx
+<SearchBar
+  isDarkModeEnabled={isDarkModeEnabled}
+  handleSearchChange={handleSearchChange}
+/>
+```
+
+**Description:**
+- The `SearchBar` component allows users to enter a search term to filter the list of countries.
+- The `handleSearchChange` function updates the search term and the component’s appearance adapts based on the `isDarkModeEnabled` prop.
+
+### SearchFilterBar
+
+A container for the search bar and region filter dropdown, arranged in a flexible layout.
+
+**Props:**
+- `children` (ReactNode): The search bar and dropdown components.
+- `className` (string): Additional CSS classes to apply.
+
+**Usage:**
+
+```jsx
+<SearchFilterBar className="mt-5">
+  <SearchBar 
+    isDarkModeEnabled={isDarkModeEnabled}
+    handleSearchChange={handleSearchChange} 
+  />
+  <RegionsDropDownButton
+    isDarkModeEnabled={isDarkModeEnabled}
+    regions={regions}
+    handleRegionChange={handleRegionChange}
+    selectedRegion={selectedRegion}
+  />
+</SearchFilterBar>
+```
+
+**Description:**
+- The `SearchFilterBar` component arranges its children (search bar and dropdown) in a responsive and flexible layout using Bootstrap's `Container` and `d-flex` classes.
+
+## Pages
+
+### Home
+
+The main page of the application that fetches country data, manages dark mode, and provides search and filter functionality.
+
+**Usage:**
+
+```jsx
+<Home />
+```
+
+**Description:**
+- The `Home` page is responsible for fetching data from the REST Countries API, managing dark mode, and filtering countries based on search input and selected region.
+- It uses the `useFetch` hook to retrieve data and the `useFilteredCountries` hook to apply filters.
+
+## Custom Hooks
+
+### useFetch
+
+Fetches data from a specified URL and manages loading and error states.
+
+**Parameters:**
+- `url` (string): The URL to fetch data from.
+
+**Returns:**
+- `data` (any): The fetched data.
+- `loading` (boolean): Indicates if data is still being loaded.
+- `error` (string | null): Error message if an error occurred.
+
+**Usage:**
+
+```jsx
+const { data, loading, error } = useFetch("https://restcountries.com/v3.1/all");
+```
+
+**Description:**
+- The `useFetch` hook handles the fetching of data from the given URL and manages the loading and error states.
+
+### useFilteredCountries
+
+Filters a list of countries based on the selected region and search term.
+
+**Parameters:**
+- `countries` (array): The list of countries.
+- `selectedRegion` (string): The selected region to filter by.
+- `searchTerm` (string): The search term to filter by country name.
+
+**Returns:**
+- `array`: A filtered list of countries.
+
+**Usage:**
+
+```jsx
+const filteredCountries = useFilteredCountries(countries, selectedRegion, searchTerm);
+```
+
+**Description:**
+- The `useFilteredCountries` hook returns a filtered list of countries based on the selected region and search term.
+
+## Helper Functions
+
+### extractRegions
+
+Extracts a unique list of regions from an array of country objects.
+
+**Parameters:**
+- `countries` (array): An array of country objects with a `region` property.
+
+**Returns:**
+- `array`: A list of unique regions.
+
+**Usage:**
+
+```jsx
+const regions = extractRegions(countries);
+```
+
+**Description:**
+- The `extractRegions` function creates a unique list of regions from the country data, which is used to populate the regions dropdown.
+
+---
+
