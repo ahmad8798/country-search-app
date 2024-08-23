@@ -14,6 +14,8 @@ A challenge from Frontend Mentor using the REST Countries API. This project allo
   - [RegionsDropDownButton](#regionsdropdownbutton)
   - [SearchBar](#searchbar)
   - [SearchFilterBar](#searchfilterbar)
+  - [SkeletonCard](#skeletoncard)
+  - [SkeletonCardList](#skeletoncardlist)
 - [Pages](#pages)
   - [Home](#home)
 - [Custom Hooks](#custom-hooks)
@@ -202,6 +204,37 @@ A container for the search bar and region filter dropdown, arranged in a flexibl
 **Description:**
 - The `SearchFilterBar` component arranges its children (search bar and dropdown) in a responsive and flexible layout using Bootstrap's `Container` and `d-flex` classes.
 
+### SkeletonCard
+
+A loading skeleton Card component that provides a placeholder while data is being fetched.
+
+**Usage:**
+
+```jsx
+<SkeletonCard />
+```
+
+**Description:**
+- The `SkeletonCard` component displays a placeholder card that mimics the layout of `CountryCard` components.
+- It is used to maintain layout consistency while the actual country data is being fetched.
+
+### SkeletonCardList
+
+A utility component that renders a list of skeleton placeholders while the actual data is being fetched.
+
+**Props:**
+- `count` (number): The number of skeleton cards to render.
+
+**Usage:**
+
+```jsx
+<SkeletonCardList count={8} />
+```
+
+**Description:**
+- The `SkeletonCardList` component is designed to display a specified number of skeleton placeholders by using the `SkeletonCard` component. It arranges these placeholders in a responsive grid layout, just like the `CardList` component.
+- This component is particularly useful for maintaining layout consistency during data loading, providing a smooth user experience.
+
 ## Pages
 
 ### Home
@@ -217,6 +250,7 @@ The main page of the application that fetches country data, manages dark mode, a
 **Description:**
 - The `Home` page is responsible for fetching data from the REST Countries API, managing dark mode, and filtering countries based on search input and selected region.
 - It uses the `useFetch` hook to retrieve data and the `useFilteredCountries` hook to apply filters.
+- While data is loading, the `SkeletonCardList` component is displayed to provide a visual placeholder.
 
 ## Custom Hooks
 
@@ -260,16 +294,18 @@ const filteredCountries = useFilteredCountries(countries, selectedRegion, search
 ```
 
 **Description:**
-- The `useFilteredCountries` hook returns a filtered list of countries based on the selected region and search term.
+- The
+
+ `useFilteredCountries` hook takes a list of countries and filters it based on the selected region and search term.
 
 ## Helper Functions
 
 ### extractRegions
 
-Extracts a unique list of regions from an array of country objects.
+Extracts unique regions from a list of countries.
 
 **Parameters:**
-- `countries` (array): An array of country objects with a `region` property.
+- `countries` (array): The list of countries.
 
 **Returns:**
 - `array`: A list of unique regions.
@@ -281,7 +317,5 @@ const regions = extractRegions(countries);
 ```
 
 **Description:**
-- The `extractRegions` function creates a unique list of regions from the country data, which is used to populate the regions dropdown.
-
----
+- The `extractRegions` function helps to generate a list of unique regions from the countries data, which can then be used in the `RegionsDropDownButton`.
 

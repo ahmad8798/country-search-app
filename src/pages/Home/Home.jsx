@@ -9,6 +9,7 @@ import useFetch from "../../hooks/useFetch";
 import "./home.css";
 import useFilteredCountries from "../../hooks/useFilteredCountries";
 import { extractRegions } from "../../helpers/extractRegions";
+import SkeletonCardList from "../../components/SkeletonCardList/SkeletonCardList";
 
 const Home = () => {
   const { data, loading, error } = useFetch(
@@ -64,10 +65,9 @@ const Home = () => {
           isDarkModeEnabled={isDarkModeEnabled}
         />
       </SearchFilterBar>
-
       {error && <p className="text-danger">Error: {error}</p>}
       {loading ? (
-        <p>Loading...</p>
+      <SkeletonCardList count={12}/>
       ) : (
         <CardList>
           {filteredCountries.map((country) => (
