@@ -10,9 +10,10 @@ import './home.css'
 
 const Home = () => {
     const { data, loading, error } = useFetch("https://restcountries.com/v3.1/all");
-  
+    
     const [countries, setCountries] = useState([]);
     const [isDarkModeEnabled,setIsDarkModeEnabled] = useState(false)
+    const [regions,setRegions] = useState([])
   
     const toggleDarkMode = useCallback(() => {
       setIsDarkModeEnabled(prevMode => !prevMode);
@@ -22,14 +23,17 @@ const Home = () => {
     useEffect(() => {
       if (data) {
         setCountries(data);
+      const extractedRegions = [...new Set(data.map(country => country.region))];
+       setRegions(extractedRegions)
       }
+
     }, [data]);
   return (
     <div className={isDarkModeEnabled?"home-page-wrapper":""}>
     <Header isDarkModeEnabled={isDarkModeEnabled} toggleDarkMode={toggleDarkMode} />
     <SearchFilterBar className={"mt-5"}>
       <SearchBar isDarkModeEnabled={isDarkModeEnabled}/>
-      <RegionsDropDownButton isDarkModeEnabled={isDarkModeEnabled} />
+      <RegionsDropDownButton regions={regions} isDarkModeEnabled={isDarkModeEnabled} />
     </SearchFilterBar>
 
     {error && <p className="text-danger">Error: {error}</p>}
