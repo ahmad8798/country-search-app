@@ -1,0 +1,10 @@
+
+.country-img{
+    width: 100% !important;
+    height: 100% !important;
+}
+@media screen and (min-width:576px) {
+    .country-img{
+        width: 75% !important;
+    }
+}

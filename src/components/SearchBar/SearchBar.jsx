@@ -1,11 +1,13 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import './searchbar.css'
 
 import { Form } from "react-bootstrap"
+import { themeContext } from '../../context/ThemeContext'
 
 
-const SearchBar = ({isDarkModeEnabled,handleSearchChange}) => {
+const SearchBar = ({handleSearchChange}) => {
   const [searchTerm,setSearchTerm] = useState("")
+  const {isDarkModeEnabled} = useContext(themeContext)
 
   const handleChange = (e)=>{
       setSearchTerm(e.target.value)
@@ -15,7 +17,7 @@ const SearchBar = ({isDarkModeEnabled,handleSearchChange}) => {
     <>
         <div className='search-wrapper position-relative'>
         <i className={`bi bi-search position-absolute search-icon ${isDarkModeEnabled&&"text-light"}`}></i>
-                 <Form.Control onChange={handleChange} value={searchTerm} style={isDarkModeEnabled ? { backgroundColor: "hsl(209, 23%, 22%)", color: "white" } : {}} className={`custom-input border border-0 shadow-lg ${isDarkModeEnabled&&"custom-input-dark"}`}   placeholder="Search for a country..."/>
+          <Form.Control onChange={handleChange} value={searchTerm} style={isDarkModeEnabled ? { backgroundColor: "hsl(209, 23%, 22%)", color: "white" } : {}} className={`custom-input border border-0 shadow-lg ${isDarkModeEnabled&&"custom-input-dark"}`}   placeholder="Search for a country..."/>
         </div>
     </>
   )
