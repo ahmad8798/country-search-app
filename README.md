@@ -1,4 +1,4 @@
-```markdown
+
 # Country Search App
 
 A challenge from Frontend Mentor using the REST Countries API. This project allows users to search for countries, filter by region, and toggle between dark and light modes.
@@ -23,9 +23,6 @@ A challenge from Frontend Mentor using the REST Countries API. This project allo
   - [useFilteredCountries](#usefilteredcountries)
 - [Helper Functions](#helper-functions)
   - [extractRegions](#extractregions)
-- [Context](#context)
-  - [CountryContext](#countrycontext)
-  - [ThemeContext](#themecontext)
 
 ## Project Overview
 
@@ -52,7 +49,7 @@ This project is a country search application that provides functionalities to se
    npm run dev
    ```
 
-   This will start the Vite development server, and you can view the application at `http://localhost:5173`.
+   This will start the Vite development server, and you can view the application at `http://localhost:3000`.
 
 ## Components
 
@@ -288,9 +285,7 @@ Filters a list of countries based on the selected region and search term.
 - `searchTerm` (string): The search term to filter by country name.
 
 **Returns:**
-- `array
-
-`: The filtered list of countries.
+- `array`: A filtered list of countries.
 
 **Usage:**
 
@@ -299,7 +294,9 @@ const filteredCountries = useFilteredCountries(countries, selectedRegion, search
 ```
 
 **Description:**
-- The `useFilteredCountries` hook filters the list of countries based on the selected region and search term. It returns the filtered list of countries.
+- The
+
+ `useFilteredCountries` hook takes a list of countries and filters it based on the selected region and search term.
 
 ## Helper Functions
 
@@ -311,7 +308,7 @@ Extracts unique regions from a list of countries.
 - `countries` (array): The list of countries.
 
 **Returns:**
-- `array`: The list of unique regions.
+- `array`: A list of unique regions.
 
 **Usage:**
 
@@ -320,34 +317,5 @@ const regions = extractRegions(countries);
 ```
 
 **Description:**
-- The `extractRegions` function processes a list of countries and returns a list of unique regions.
+- The `extractRegions` function helps to generate a list of unique regions from the countries data, which can then be used in the `RegionsDropDownButton`.
 
-## Context
-
-### CountryContext
-
-Provides the current list of countries and a function to update it.
-
-**Usage:**
-
-```jsx
-const { countries, setCountries } = useContext(CountryContext);
-```
-
-**Description:**
-- `CountryContext` allows components to access and update the list of countries across the application.
-
-### ThemeContext
-
-Manages the current theme (dark or light mode) and provides a function to toggle the theme.
-
-**Usage:**
-
-```jsx
-const { isDarkModeEnabled, toggleDarkMode } = useContext(ThemeContext);
-```
-
-**Description:**
-- `ThemeContext` provides the current theme state and a function to toggle between dark and light modes. It allows components to adjust their appearance based on the selected theme.
-
-```
